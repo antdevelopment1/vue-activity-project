@@ -1,125 +1,173 @@
 <template>
-    <div id="activityApp">
-        <nav class="navbar is-white topNav">
-            <div class="container">
-                <div class="navbar-brand">
-                <h1>Activity Planner</h1>
-                </div>
+  <div id="activityApp">
+    <nav class="navbar is-white topNav">
+      <div class="container">
+        <div class="navbar-brand">
+          <h1>Activity Planner</h1>
+        </div>
+      </div>
+    </nav>
+    <nav class="navbar is-white">
+      <div class="container">
+        <div class="navbar-menu">
+          <div class="navbar-start">
+            <a
+              class="navbar-item is-active"
+              href="#"
+            >Newest</a>
+            <a
+              class="navbar-item"
+              href="#"
+            >In Progress</a>
+            <a
+              class="navbar-item"
+              href="#"
+            >Finished</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <section class="container">
+      <div class="columns">
+        <div class="column is-3">
+          <a
+            v-if="!isFormDisplayed"
+            class="button is-primary is-block is-alt is-large"
+            href="#"
+            @click="isFormDisplayed = !isFormDisplayed"
+          >New Activity</a>
+          <div
+            v-if="isFormDisplayed"
+            class="create-form"
+          >
+            <h2>Create Activity</h2>
+            <div class="field">
+              <label
+                class="label"
+                for=""
+              >Title</label>
+              <div class="control">
+                <input
+                  v-model="newActivity.title"
+                  type="text"
+                  class="input"
+                  placeholder="Read a Book"
+                >
+              </div>
             </div>
-        </nav>
-        <nav class="navbar is-white">
-            <div class="container">
-                <div class="navbar-menu">
-                    <div class="navbar-start">
-                        <a class="navbar-item is-active" href="#">Newest</a>
-                        <a class="navbar-item" href="#">In Progress</a>
-                        <a class="navbar-item" href="#">Finished</a>
-                    </div>
-                </div>
+            <div class="field">
+              <label
+                for=""
+                class="class"
+              >Notes</label>
+              <textarea
+                id=""
+                v-model="newActivity.notes"
+                name=""
+                cols="30"
+                rows="10"
+                placeholder="Write some note here..."
+              />
             </div>
-        </nav>
-        <section class="container">
-            <div class="columns">
-                <div class="column is-3">
-                    <a v-if="!isFormDisplayed" @click="isFormDisplayed = !isFormDisplayed" class="button is-primary is-block is-alt is-large" href="#">New Activity</a>
-                    <div v-if="isFormDisplayed" class="create-form">
-                        <h2>Create Activity</h2>
-                        <div class="field">
-                            <label class="label" for="">Title</label>
-                        <div class="control">
-                            <input v-model="newActivity.title" type="text" class="input" placeholder="Read a Book">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="" class="class">Notes</label>
-                        <textarea v-model="newActivity.notes" name="" id="" cols="30" rows="10" placeholder="Write some note here..."></textarea>
-                    </div>
-                    <div class="field is-grouped">
-                        <div class="control">
-                            <button @click=createActivity class="button is-link">Create Activity</button>
-                            <button  @click="toggleFormDisplay()" class="button is-text">Cancel</button>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                <div class="column is-9">
-                    <div class="box content">
-                        <activity-item v-for="activity in activities" v-bind:activity="activity"
-                        v-bind:key="activity.id"></activity-item>
-                    </div>
-                </div>
+            <div class="field is-grouped">
+              <div class="control">
+                <button
+                  class="button is-link"
+                  @click="createActivity"
+                >
+                  Create Activity
+                </button>
+                <button
+                  class="button is-text"
+                  @click="toggleFormDisplay()"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
-        </section>
-    </div>
+          </div>
+        </div>
+        <div class="column is-9">
+          <div class="box content">
+            <activity-item
+              v-for="activity in activities"
+              :key="activity.id"
+              :activity="activity"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>
-    import ActivityItem from './components/ActivityItem.vue';
-    // @ will automatically point to .src file
-    import {fetchActivities} from '@/api';
-    export default {
-        name: 'app',
-        components: {
-            ActivityItem
-        },
-        data() {
-            return {
-                isFormDisplayed: false,
-                message: 'Hello Vue!',
-                titleMessage: 'Title Message Vue!!!!!',
-                isTextDisplayed: true,
-                newActivity: {
-                title: '',
-                notes: ''
-                },
-                items: {1: {name: "john"}, 2: {name: "jen"}, 3:{name: "jasmine"}},
-                user: {
-                name: 'Filip Jerga',
-                id: '-Aj34jknvncx98812',
-                },
-                activities: {},
-                categories: {
-                '1546969049': {text: 'books'},
-                '1546969225': {text: 'movies'}
-                }
-            }
-        },
-        beforeCreate() {
-            console.log('before created called');
-        },
-        created() {
-            this.activities = fetchActivities();
-        },
-        beforeMount() {
-            console.log('before mount called');
-        },
-        mounted() {
-            console.log('mounted called');
-        },
-        beforeUpdate() {
-            console.log('before updated called');
-        },
-        updated() {
-            console.log('updated called');
-        },
-        beforeDestroy() {
-            console.log('before destroyed called');
-        },
-        destroyed() {
-            console.log('destroyed called');
-        },
-        methods: {
-            toggleTextDisplay() {
-                this.isTextDisplayed = !this.isTextDisplayed
-            },
-            toggleFormDisplay() {
-                this.isFormDisplayed = !this.isFormDisplayed;
-            },
-            createActivity() {
-                console.log(this.newActivity)
-            }
-        }
+import ActivityItem from './components/ActivityItem.vue'
+// @ will automatically point to .src file
+import { fetchActivities } from '@/api'
+export default {
+  name: 'App',
+  components: {
+    ActivityItem
+  },
+  data () {
+    return {
+      isFormDisplayed: false,
+      message: 'Hello Vue!',
+      titleMessage: 'Title Message Vue!!!!!',
+      isTextDisplayed: true,
+      newActivity: {
+        title: '',
+        notes: ''
+      },
+      items: { 1: { name: 'john' }, 2: { name: 'jen' }, 3: { name: 'jasmine' } },
+      user: {
+        name: 'Filip Jerga',
+        id: '-Aj34jknvncx98812'
+      },
+      activities: {},
+      categories: {
+        '1546969049': { text: 'books' },
+        '1546969225': { text: 'movies' }
+      }
     }
+  },
+  beforeCreate () {
+    console.log('before created called')
+  },
+  created () {
+    this.activities = fetchActivities()
+  },
+  beforeMount () {
+    console.log('before mount called')
+  },
+  mounted () {
+    console.log('mounted called')
+  },
+  beforeUpdate () {
+    console.log('before updated called')
+  },
+  updated () {
+    console.log('updated called')
+  },
+  beforeDestroy () {
+    console.log('before destroyed called')
+  },
+  destroyed () {
+    console.log('destroyed called')
+  },
+  methods: {
+    toggleTextDisplay () {
+      this.isTextDisplayed = !this.isTextDisplayed
+    },
+    toggleFormDisplay () {
+      this.isFormDisplayed = !this.isFormDisplayed
+    },
+    createActivity () {
+      console.log(this.newActivity)
+    }
+  }
+}
 </script>
 
 <style>
