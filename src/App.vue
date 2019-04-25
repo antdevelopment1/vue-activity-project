@@ -105,6 +105,8 @@
 import ActivityItem from './components/ActivityItem.vue'
 // @ will automatically point to .src file
 import { fetchActivities } from '@/api'
+import { fetchUser } from '@/api'
+import { fetchCategories } from '@/api'
 export default {
   name: 'App',
   components: {
@@ -121,15 +123,9 @@ export default {
         notes: ''
       },
       items: { 1: { name: 'john' }, 2: { name: 'jen' }, 3: { name: 'jasmine' } },
-      user: {
-        name: 'Filip Jerga',
-        id: '-Aj34jknvncx98812'
-      },
+      user: {},
       activities: {},
-      categories: {
-        '1546969049': { text: 'books' },
-        '1546969225': { text: 'movies' }
-      }
+      categories: {}
     }
   },
   beforeCreate () {
@@ -137,6 +133,9 @@ export default {
   },
   created () {
     this.activities = fetchActivities()
+    this.user = fetchUser();
+    this.categories = fetchCategories();
+    console.log(this.categories)
   },
   beforeMount () {
     console.log('before mount called')
