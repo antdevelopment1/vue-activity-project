@@ -61,6 +61,7 @@
                 for=""
                 class="class"
               >Notes</label>
+                <div class="control">
               <textarea
                 id=""
                 v-model="newActivity.notes"
@@ -69,6 +70,19 @@
                 rows="10"
                 placeholder="Write some note here..."
               />
+              </div>
+            </div>
+            <div class="field">
+              <label
+                for=""
+                class="class"
+              >Notes</label>
+              <div class="control">
+                <select v-model="newActivity.category" name="" id="" class="select">
+                  <option disabled value="">Please Select One</option>
+                  <option v-for="(category, index) in categories" :key="index" :value="category.id">{{category.text}}</option>
+                </select>
+              </div>
             </div>
             <div class="field is-grouped">
               <div class="control">
@@ -97,6 +111,12 @@
               :key="activity.id"
               :activity="activity"
             />
+            <div class="activity-length">
+              Currently {{ activityLength }} Activities
+            </div>
+            <div class="activity-motivation">
+              {{ activityMotivation }}
+            </div>
           </div>
         </div>
       </div>
@@ -124,7 +144,8 @@ export default {
       watchedAppName: 'Activity Planner by April Copes', 
       newActivity: {
         title: '',
-        notes: ''
+        notes: '',
+        category: ''
       },
       items: { 1: { name: 'john' }, 2: { name: 'jen' }, 3: { name: 'jasmine' } },
       user: {},
@@ -138,18 +159,21 @@ export default {
     },
     fullAppName() {
       return this.appName + " by " + this.creator;
-    }
-  },
-  watch: {
-    creator(val) {
-      debugger
-      console.log(val)
-      this.watchedAppName = this.appName + " by " + val;
     },
-    appName(val) {
-      debugger
-      console.log(val)
-      this.watchedAppName = val + " by " + this.creator;
+    activityLength() {
+      // const activitiesKeysArray = Object.keys(this.activities);
+      // const activityLength = activitiesKeysArray.length;
+      // return activityLength; 
+      return Object.keys(this.activities).length;
+    },
+    activityMotivation() {
+      if (this.activityLength && this.activityLength < 5) {
+        return "Nice to see some goals :)";
+      } else if (this.activityLength >= 5) {
+        return 'Soooo many activities!!! Great Job.'
+      } else {
+        return 'So sad. There are noi activities.'
+      }
     }
   },
   created () {
@@ -178,6 +202,12 @@ export default {
     }
     footer {
     background-color: #F2F6FA !important;
+    }
+    .activity-motivation {
+      float: right;
+    }
+    .activity-length {
+      display: inline-block;
     }
     .example-wrapper {
     margin-left: 30px;
