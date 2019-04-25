@@ -4,6 +4,7 @@
       <div class="container">
         <div class="navbar-brand">
           <h1>{{fullAppName}}</h1>
+          <!-- <h1>{{ watchedAppName }}</h1> -->
         </div>
       </div>
     </nav>
@@ -109,6 +110,7 @@ import ActivityItem from './components/ActivityItem.vue'
 import { fetchActivities } from '@/api'
 import { fetchUser } from '@/api'
 import { fetchCategories } from '@/api'
+import { debug } from 'util';
 export default {
   name: 'App',
   components: {
@@ -119,6 +121,7 @@ export default {
       isFormDisplayed: false,
       creator: 'Filip Jerga',
       appName: 'Activity Planner',
+      watchedAppName: 'Activity Planner by April Copes', 
       newActivity: {
         title: '',
         notes: ''
@@ -135,6 +138,18 @@ export default {
     },
     fullAppName() {
       return this.appName + " by " + this.creator;
+    }
+  },
+  watch: {
+    creator(val) {
+      debugger
+      console.log(val)
+      this.watchedAppName = this.appName + " by " + val;
+    },
+    appName(val) {
+      debugger
+      console.log(val)
+      this.watchedAppName = val + " by " + this.creator;
     }
   },
   created () {
