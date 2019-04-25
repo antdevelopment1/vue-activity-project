@@ -31,78 +31,7 @@
     <section class="container">
       <div class="columns">
         <div class="column is-3">
-          <a
-            v-if="!isFormDisplayed"
-            class="button is-primary is-block is-alt is-large"
-            href="#"
-            @click="isFormDisplayed = !isFormDisplayed"
-          >New Activity</a>
-          <div
-            v-if="isFormDisplayed"
-            class="create-form"
-          >
-            <h2>Create Activity</h2>
-            <div class="field">
-              <label
-                class="label"
-                for=""
-              >Title</label>
-              <div class="control">
-                <input
-                  v-model="newActivity.title"
-                  type="text"
-                  class="input"
-                  placeholder="Read a Book"
-                >
-              </div>
-            </div>
-            <div class="field">
-              <label
-                for=""
-                class="class"
-              >Notes</label>
-                <div class="control">
-              <textarea
-                id=""
-                v-model="newActivity.notes"
-                name=""
-                cols="30"
-                rows="10"
-                placeholder="Write some note here..."
-              />
-              </div>
-            </div>
-            <div class="field">
-              <label
-                for=""
-                class="class"
-              >Notes</label>
-              <div class="control">
-                <select v-model="newActivity.category" name="" id="" class="select">
-                  <option disabled value="">Please Select One</option>
-                  <option v-for="(category, index) in categories" :key="index" :value="category.id">{{category.text}}</option>
-                </select>
-              </div>
-            </div>
-            <div class="field is-grouped">
-              <div class="control">
-                <button
-                  class="button is-link"
-                  :disabled="!isFormValid"
-
-                  @click="createActivity"
-                >
-                  Create Activity
-                </button>
-                <button
-                  class="button is-text"
-                  @click="toggleFormDisplay()"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
+          <ActivityCreate :categories="categories"></ActivityCreate>
         </div>
         <div class="column is-9">
           <div class="box content">
@@ -126,6 +55,7 @@
 
 <script>
 import ActivityItem from './components/ActivityItem.vue'
+import ActivityCreate from './components/ActivityCreate';
 // @ will automatically point to .src file
 import { fetchActivities } from '@/api'
 import { fetchUser } from '@/api'
@@ -134,7 +64,8 @@ import { debug } from 'util';
 export default {
   name: 'App',
   components: {
-    ActivityItem
+    ActivityItem,
+    ActivityCreate
   },
   data () {
     return {
@@ -142,11 +73,6 @@ export default {
       creator: 'Filip Jerga',
       appName: 'Activity Planner',
       watchedAppName: 'Activity Planner by April Copes', 
-      newActivity: {
-        title: '',
-        notes: '',
-        category: ''
-      },
       items: { 1: { name: 'john' }, 2: { name: 'jen' }, 3: { name: 'jasmine' } },
       user: {},
       activities: {},
@@ -154,9 +80,6 @@ export default {
     }
   },
   computed: {
-    isFormValid() {
-      return this.newActivity.title && this.newActivity.notes;
-    },
     fullAppName() {
       return this.appName + " by " + this.creator;
     },
@@ -182,12 +105,6 @@ export default {
     this.categories = fetchCategories();
   },
    methods: {
-    toggleFormDisplay () {
-      this.isFormDisplayed = !this.isFormDisplayed
-    },
-    createActivity () {
-      console.log(this.newActivity)
-    }
   }
 }
 </script>
