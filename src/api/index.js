@@ -20,3 +20,21 @@ export const fetchActivities = () => {
     }
   }
 }
+
+export const fetchUser = () => {
+  return {
+    user: {
+      name: 'Filip Jerga',
+      id: '-Aj34jknvncx98812'
+    }
+  }
+}
+
+export const fetchCategories = () => {
+  return {
+    categories: {
+      '1546969049': { text: 'books' },
+      '1546969225': { text: 'movies' }
+    }
+  }
+}
