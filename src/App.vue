@@ -73,7 +73,7 @@
               <div class="control">
                 <button
                   class="button is-link"
-                  :disabled="!isFormValid()"
+                  :disabled="!isFormValid"
 
                   @click="createActivity"
                 >
@@ -157,6 +157,11 @@ export default {
   destroyed () {
     console.log('destroyed called')
   },
+  computed: {
+    isFormValid() {
+      return this.newActivity.title && this.newActivity.notes;
+    }
+  },
   methods: {
     toggleTextDisplay () {
       this.isTextDisplayed = !this.isTextDisplayed
@@ -167,9 +172,9 @@ export default {
     createActivity () {
       console.log(this.newActivity)
     },
-    isFormValid() {
-      return this.newActivity.title && this.newActivity.notes;
-    }
+    // isFormValid() {
+    //   return this.newActivity.title && this.newActivity.notes;
+    // }
   }
 }
 </script>
