@@ -73,6 +73,8 @@
               <div class="control">
                 <button
                   class="button is-link"
+                  :disabled="!newActivity.title || !newActivity.notes"
+
                   @click="createActivity"
                 >
                   Create Activity
@@ -164,6 +166,9 @@ export default {
     },
     createActivity () {
       console.log(this.newActivity)
+    },
+    isFormValid() {
+      return newActivity.title && newActivity.notes;
     }
   }
 }
