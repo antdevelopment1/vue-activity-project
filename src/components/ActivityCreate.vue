@@ -49,7 +49,7 @@
         <div class="control">
         <select v-model="newActivity.category" name="" id="" class="select">
             <option disabled value="">Please Select One</option>
-            <option v-for="(category, index) in categories" :key="category.id" :value="category.id">{{category.text}}</option>
+            <option v-for="category in categories" :key="category.id" :value="category.id">{{category.text}}</option>
         </select>
         </div>
     </div>
@@ -59,7 +59,7 @@
             class="button is-link"
             :disabled="!isFormValid"
 
-            @click="createActivity"
+            @click.prevent="createActivity"
         >
             Create Activity
         </button>
@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import { createActivity } from '@/api';
 export default {
     name: "activity-create",
     props: {
@@ -104,7 +105,9 @@ export default {
             this.isFormDisplayed = !this.isFormDisplayed
         },
         createActivity () {
-            console.log(this.newActivity)
+            debugger
+            const activity = createActivity(this.newActivity);
+            this.$emit('activityCreated', {...activity});
         }
     }
 }
